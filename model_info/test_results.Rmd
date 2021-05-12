@@ -1,0 +1,39 @@
+---
+title: "test_1"
+author: "Kylie Lin"
+date: "5/11/2021"
+output:
+    html_document:
+    toc: true
+    toc_float: true
+    highlight: "tango"
+---
+
+## Data Prep
+
+```{r, message = F, warning = F}
+library(tidyverse)
+library(tidymodels)
+library(janitor)
+library(skimr)
+library(DT)
+library(lubridate)
+library(naniar)
+library(zoo)
+
+library(rsample)
+library(tidymodels)
+library(ranger)
+library(glmnet)
+library(xgboost)
+library(neighbr)
+library(e1071)
+library(earth)
+
+```
+
+
+```{r}
+
+```
+
