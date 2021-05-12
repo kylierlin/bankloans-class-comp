@@ -1,0 +1,44 @@
+---
+title: "Classification Attempt2"
+author: "Kylie Lin"
+date: "5/12/2021"
+output: html_document
+---
+
+## Attempt \#2
+
+```{r, message = F, warning = F}
+library(tidyverse)
+library(tidymodels)
+library(janitor)
+library(skimr)
+library(DT)
+library(lubridate)
+library(naniar)
+libraryzo
+
+library(rsample)
+library(tidymodels)
+
+```
+
+```{r, message = F, warning = F}
+bl_test <- read_csv("stat-301-3-classification-2021-loan-repayment/test.csv") %>% 
+  clean_names()
+
+bl_train <- read_csv("stat-301-3-classification-2021-loan-repayment/train.csv") %>% 
+  clean_names()
+
+```
+
+```{r}
+bl_train <- bl_train %>% 
+  mutate(
+    term = ifelse(term == "36 months", 36, 60),
+    last_credit_pull_d = as.Date(as.yearmon(last_credit_pull_d, format = "%b-%Y")), 
+    earliest_cr_line = as.Date(as.yearmon(earliest_cr_line, format = "%b-%Y")),
+    hi_int_prncp_pd = ifelse(hi_int_prncp_pd == 0, "0", "1"),
+    hi_int_prncp_pd = as.factor(hi_int_prncp_pd)
+  )
+bl_train
+```

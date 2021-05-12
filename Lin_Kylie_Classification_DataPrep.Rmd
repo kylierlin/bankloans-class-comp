@@ -208,16 +208,62 @@ save(bl_folds,
 ```
 
 ```{r}
-load("model_info/knn_tune.rda")
+load("model_info/en_tuned.rda")
 ```
 
 ```{r}
 final_results %>% 
   rename("Id" = id,
-         "Predicted" = .pred)
+         "Predicted" = .pred_class)
 
 final_results <- final_results[c(2,1)]
 ```
+
+```{r}
+final_results %>% 
+  count()
+
+final_results %>% 
+  select(.pred_class) %>% 
+  filter(.pred_class == "0") %>% 
+  count()
+
+final_results <- final_results %>% 
+  rename("Id" = id,
+         "Predicted" = .pred_class)
+
+final_results
+```
+
+
+```{r}
+
+final_results <- final_results[c(2,1)]
+final_results
+```
+```{r}
+final_results <- final_results %>% 
+  rename("Category" = Predicted)
+```
+
+
+```{r}
+write_csv(final_results, "model_info/en_class_results.csv")
+```
+
+```{r}
+bl_train %>% 
+  count()
+
+bl_train %>% 
+  select(hi_int_prncp_pd) %>% 
+  filter(hi_int_prncp_pd == "0") %>% 
+  count()
+```
+
+
+
+
 
 ``` {r}
 final_results <- final_results %>% 

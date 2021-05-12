@@ -44,7 +44,7 @@ en_runtime <- tic.log(format = TRUE)
 
 # fit to train data
 en_wf_tune <- en_wf %>% 
-  finalize_workflow(select_best(en_tuned, metric = "rmse"))
+  finalize_workflow(select_best(en_tuned, metric = "accuracy"))
 
 en_results <- fit(en_wf_tune, bl_train)
 

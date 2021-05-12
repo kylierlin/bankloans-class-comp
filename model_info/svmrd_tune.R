@@ -44,7 +44,7 @@ svmrd_runtime <- tic.log(format = TRUE)
 
 # fit to train data
 svmrd_wf_tune <- en_wf %>% 
-  finalize_workflow(select_best(svmrd_tuned, metric = "rmse"))
+  finalize_workflow(select_best(svmrd_tuned, metric = "accuracy"))
 
 svmrd_results <- fit(svmrd_wf_tune, bl_train)
 
