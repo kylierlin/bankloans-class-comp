@@ -15,7 +15,6 @@ library(skimr)
 library(DT)
 library(lubridate)
 library(naniar)
-libraryzo
 
 library(rsample)
 library(tidymodels)
@@ -34,11 +33,33 @@ bl_train <- read_csv("stat-301-3-classification-2021-loan-repayment/train.csv") 
 ```{r}
 bl_train <- bl_train %>% 
   mutate(
-    term = ifelse(term == "36 months", 36, 60),
-    last_credit_pull_d = as.Date(as.yearmon(last_credit_pull_d, format = "%b-%Y")), 
-    earliest_cr_line = as.Date(as.yearmon(earliest_cr_line, format = "%b-%Y")),
     hi_int_prncp_pd = ifelse(hi_int_prncp_pd == 0, "0", "1"),
     hi_int_prncp_pd = as.factor(hi_int_prncp_pd)
   )
-bl_train
+
+```
+
+```{r}
+bl_folds <- bl_train %>%
+  vfold_cv(v = 5, repeats = 1, strata = hi_int_prncp_pd)
+bl_folds
+
+```
+
+```{r}
+bl_recipe <- recipe(hi_int_prncp_pd ~ out_prncp_inv + int_rate + loan_amnt + term + grade,
+                    data = bl_train) %>% 
+  step_dummy(term, grade) %>% 
+  step_normalize(all_predictors())
+
+```
+
+```{r}
+# Model setup and tuning
+save(bl_folds, 
+     bl_recipe,
+     bl_train,
+     bl_test,
+     file = "model_info/bl_setup.rda")
+
 ```
