@@ -14,23 +14,23 @@ set.seed(3013)
 load("bl_setup.rda")
 
 # Define model
-rf_model <- rand_forest(mode = "regression",
+rf_model <- rand_forest(mode = "classification",
                         min_n = tune(),
                         mtry = tune()) %>% 
   set_engine("ranger")
 
 rf_params <- parameters(rf_model) %>% 
-  update(mtry = mtry(range = c(2, 10)))
+  update(mtry = mtry(range = c(1, 5)))
 
 # Grid
-rf_grid <- grid_regular(rf_params, levels = 5)
+rf_grid <- grid_regular(rf_params, levels = 3)
 
 # Workflow
 rf_wf <- workflow() %>% 
   add_model(rf_model) %>% 
   add_recipe(bl_recipe)
 
-# tuning and fitting - DON"T RUN HERE
+# tuning and fitting 
 tic("Random Forest Model")
 rf_tuned <- rf_wf %>% 
   tune_grid(bl_folds, grid = rf_grid)
@@ -42,7 +42,7 @@ rf_runtime <- tic.log(format = TRUE)
 
 # fit to train data
 rf_wf_tune <- rf_wf %>% 
-  finalize_workflow(select_best(rf_tuned, metric = "rmse"))
+  finalize_workflow(select_best(rf_tuned, metric = "accuracy"))
 
 rf_results <- fit(rf_wf_tune, bl_train)
 
@@ -50,7 +50,7 @@ final_results <- rf_results %>%
   predict(new_data = bl_test) %>%
   bind_cols(bl_test %>% select(id)) %>% 
   rename("Id" = id,
-         "Predicted" = .pred)
+         "Category" = .pred_class)
 
 final_results <- final_results[c(2,1)]
 
