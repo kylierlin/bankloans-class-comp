@@ -75,7 +75,7 @@ final_results <- rf_results %>%
 
 final_results <- final_results[c(2,1)]
 
-write_csv(final_results, path="Lin_Kylie_RF_RegComp.csv")
+write_csv(final_results, path="Lin_Kylie_RF_ClassComp.csv")
 
 
 # Write out results & workflow
