@@ -12,10 +12,10 @@ library(ranger)
 set.seed(3013)
 
 # setup ----
-bl_test <- read_csv("data/test.csv") %>% 
+bl_test <- read_csv("test.csv") %>% 
   clean_names()
 
-bl_train <- read_csv("data/train.csv") %>% 
+bl_train <- read_csv("train.csv") %>% 
   clean_names()
 
 bl_train <- bl_train %>% 
